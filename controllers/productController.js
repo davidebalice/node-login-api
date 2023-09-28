@@ -1,7 +1,7 @@
 const Product = require('../models/productModel');
-const ApiQuery = require('../utils/apiquery');
-const AppError = require('../utils/error');
-const catchAsync = require('../utils/catchAsync');
+const ApiQuery = require('../middlewares/apiquery');
+const AppError = require('../middlewares/error');
+const catchAsync = require('../middlewares/catchAsync');
 const { ObjectId } = require('mongodb');
 
 exports.getProducts = async (req, res) => {

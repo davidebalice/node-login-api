@@ -11,6 +11,7 @@ const DB = process.env.DATABASE;
 const cors = require('cors');
 const { ApolloServer, gql } = require('apollo-server-express');
 const schema = require('./graphql/schema');
+const authMiddleware = require('./middlewares/auth');
 
 app.use(
   cors({
@@ -82,7 +83,7 @@ app.use('/api/', authRouter);
 
 const productRouter = require('./routers/productRoutes');
 app.use('/api/', productRouter);
-
+app.use('/graphql/', authMiddleware);
 const server = new ApolloServer({ schema, context: ({ req, res }) => ({ req, res }) });
 
 async function startServer() {

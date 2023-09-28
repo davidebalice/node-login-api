@@ -2,10 +2,10 @@ const { promisify } = require('util');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
-const ApiQuery = require('../utils/apiquery');
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/error');
-const Email = require('../utils/email');
+const ApiQuery = require('../middlewares/apiquery');
+const catchAsync = require('../middlewares/catchAsync');
+const AppError = require('../middlewares/error');
+const Email = require('../middlewares/email');
 const User = require('../models/userModel');
 
 const signToken = (id) =>

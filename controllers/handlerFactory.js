@@ -1,17 +1,13 @@
-const catchAsync = require('../utils/catchAsync');
-const ApiQuery = require('../utils/apiquery');
-const AppError = require('../utils/error');
+const catchAsync = require('../middlewares/catchAsync');
+const ApiQuery = require('../middlewares/apiquery');
+const AppError = require('../middlewares/error');
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     let filter = {};
     if (req.params.eventId) filter = { event_id: req.params.eventId };
 
-    const features = new ApiQuery(Model.find(filter), req.query)
-      .filter()
-      .sort()
-      .limitFields()
-      .paginate();
+    const features = new ApiQuery(Model.find(filter), req.query).filter().sort().limitFields().paginate();
     next(features);
   });
 

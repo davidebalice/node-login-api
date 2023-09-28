@@ -5,16 +5,21 @@ module.exports = {
     product: async (parent, args, context, info) => {
       try {
         const { id } = args;
-        
+
+        if (!context.req.userId) {
+          throw new Error('Not authenticated');
+        }
+
         const product = await Product.findOne({ product_id: id });
 
         if (!product) {
           throw new Error('Product not found');
         }
-        console.log(id);
-        console.log(product);
+
         return product.toObject();
       } catch (error) {
+        console.error(error.response.data);
+        console.log(error);
         throw new Error('Error searching product.');
       }
     },

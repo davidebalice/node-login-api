@@ -1,8 +1,8 @@
 const User = require('../models/userModel');
-const catchAsync = require('../utils/catchAsync');
+const catchAsync = require('../middlewares/catchAsync');
 const mongoose = require('mongoose');
 const factory = require('./handlerFactory');
-const AppError = require('../utils/error');
+const AppError = require('../middlewares/error');
 const multer = require('multer');
 const sharp = require('sharp');
 const multerStorage = multer.memoryStorage();
@@ -49,12 +49,7 @@ exports.getMe = (req, res, next) => {
 
 exports.updateMe = catchAsync(async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
-    return next(
-      new AppError(
-        'This route is not for password updates. Please use /updateMyPassword.',
-        400
-      )
-    );
+    return next(new AppError('This route is not for password updates. Please use /updateMyPassword.', 400));
   }
 
   const filteredBody = filterObj(req.body, 'surname', 'name', 'email');
@@ -91,10 +86,7 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
   const page = req.query.page * 1 || 1;
   const limit = req.query.limit * 1 || 10;
   const skip = (page - 1) * limit;
-  const users = await User.find(filterData)
-    .sort('-createdAt')
-    .skip(skip)
-    .limit(limit);
+  const users = await User.find(filterData).sort('-createdAt').skip(skip).limit(limit);
   const count = await User.countDocuments();
   const totalPages = Math.ceil(count / limit);
   let message = '';
